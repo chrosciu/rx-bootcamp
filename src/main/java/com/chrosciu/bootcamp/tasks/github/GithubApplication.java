@@ -37,11 +37,21 @@ public class GithubApplication {
 
     @SneakyThrows
     private void run() {
+
         githubClient.getUserRepositories("magikabdul").subscribe(
                 repository -> log.info("Repo: {}", repository),
                 error -> log.warn("Error: {}", error.getMessage()),
                 () -> log.info("Completed!")
         );
+
+        System.out.println("\n\n\n\n\n");
+
+        githubClient.getUserRepositoryBranches("magikabdul", "configaro")
+                .subscribe(
+                        branch -> log.info("Branch: {}", branch),
+                        error -> log.warn("Error: {}", error.getMessage()),
+                        () -> log.info("Completed!!")
+                );
     }
 
     public static void main(String[] args) {

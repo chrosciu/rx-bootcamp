@@ -15,8 +15,8 @@ public class GithubClient {
     }
 
     public Flux<Branch> getUserRepositoryBranches(String username, String repo) {
-        //TODO: Implement
-        return null;
+        Flux<Branch> branchFlux = githubApi.getUserRepositoryBranches(username, repo).flatMapMany(Flux::fromIterable);
+        return branchFlux;
     }
 
     public Flux<Repository> getUsersRepositories(Flux<String> usernames) {
