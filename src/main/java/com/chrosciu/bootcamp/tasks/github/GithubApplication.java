@@ -1,12 +1,17 @@
 package com.chrosciu.bootcamp.tasks.github;
 
+import com.chrosciu.bootcamp.tasks.github.dto.Repository;
+import com.chrosciu.bootcamp.tasks.input.InputUtils;
 import com.jakewharton.retrofit2.adapter.reactor.ReactorCallAdapterFactory;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import reactor.core.publisher.Flux;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+
+import java.io.InputStream;
 
 @Slf4j
 public class GithubApplication {
@@ -37,6 +42,37 @@ public class GithubApplication {
 
     @SneakyThrows
     private void run() {
+        log.info(">>> TASK 5");
+        InputStream input = System.in;
+        Flux<String> inputs = InputUtils.toFlux(input);
+        Flux<Repository> repositories = githubClient.getUsersRepositories(inputs);
+
+        repositories.subscribe(s -> log.info("{}", s));
+
+        log.info(">>> TASK 1");
+        githubClient.getUserRepositories("jasokolowska")
+                .subscribe(s -> log.info("Repository: {}", s),
+                        e -> log.info(e.getMessage()),
+                        () -> log.info("Completed"));
+
+        log.info(">>> TASK 2");
+        githubClient.getUserRepositoryBranches("jasokolowska", "project-jdp-2112-01")
+                .subscribe(s -> log.info("Repository: {}", s),
+                        e -> log.info(e.getMessage()),
+                        () -> log.info("Completed"));
+
+        log.info(">>> TASK 3");
+        Flux<String> users = Flux.just("joan", "andr");
+        githubClient.getUsersRepositories(users)
+                .subscribe(s -> log.info("Repository: {}", s),
+                        e -> log.info(e.getMessage()),
+                        () -> log.info("Completed"));
+
+        log.info(">>> TASK 4");
+        githubClient.getAllUserBranchesNames("jasokolowska")
+                .subscribe(s -> log.info("Repository: {}", s),
+                        e -> log.info(e.getMessage()),
+                        () -> log.info("Completed"));
     }
 
     public static void main(String[] args) {
