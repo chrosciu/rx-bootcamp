@@ -20,8 +20,8 @@ public class GithubClient {
     }
 
     public Flux<Repository> getUsersRepositories(Flux<String> usernames) {
-        //TODO: Implement
-        return null;
+        Flux<Repository> repositoryFlux = usernames.flatMap(this::getUserRepositories);
+        return repositoryFlux;
     }
 
     public Flux<String> getAllUserBranchesNames(String username) {

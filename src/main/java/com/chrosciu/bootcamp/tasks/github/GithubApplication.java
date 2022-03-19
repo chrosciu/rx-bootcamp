@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import reactor.core.publisher.Flux;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
@@ -52,6 +53,16 @@ public class GithubApplication {
                         error -> log.warn("Error: {}", error.getMessage()),
                         () -> log.info("Completed!!")
                 );
+
+        System.out.println("\n\n\n\n\n");
+
+        githubClient.getUsersRepositories(Flux.just("magikabdul", "chrosciu"))
+                .subscribe(
+                        repository -> log.info("Repository: {}", repository),
+                        error -> log.warn("Error: {}", error.getMessage()),
+                        () -> log.info("Completed!!!")
+                );
+
     }
 
     public static void main(String[] args) {
