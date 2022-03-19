@@ -10,8 +10,8 @@ public class GithubClient {
     private final GithubApi githubApi;
 
     public Flux<Repository> getUserRepositories(String username) {
-        //TODO: Implement
-        return null;
+        Flux<Repository> repositoryFlux = githubApi.getUserRepositories(username).flatMapMany(Flux::fromIterable);
+        return repositoryFlux;
     }
 
     public Flux<Branch> getUserRepositoryBranches(String username, String repo) {

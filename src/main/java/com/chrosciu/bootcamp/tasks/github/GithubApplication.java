@@ -37,6 +37,11 @@ public class GithubApplication {
 
     @SneakyThrows
     private void run() {
+        githubClient.getUserRepositories("magikabdul").subscribe(
+                repository -> log.info("Repo: {}", repository),
+                error -> log.warn("Error: {}", error.getMessage()),
+                () -> log.info("Completed!")
+        );
     }
 
     public static void main(String[] args) {
