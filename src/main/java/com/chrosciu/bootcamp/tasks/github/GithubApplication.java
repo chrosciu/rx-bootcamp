@@ -63,6 +63,14 @@ public class GithubApplication {
                         () -> log.info("Completed!!!")
                 );
 
+        System.out.println("\n\n\n\n\n");
+
+        githubClient.getAllUserBranchesNames("magikabdul")
+                .subscribe(
+                        name -> log.info("Branch: {}", name),
+                        error -> log.warn("Error: {}", error.getMessage()),
+                        () -> log.info("Completed!!!")
+                );
     }
 
     public static void main(String[] args) {

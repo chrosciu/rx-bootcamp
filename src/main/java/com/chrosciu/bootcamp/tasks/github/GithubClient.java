@@ -25,7 +25,9 @@ public class GithubClient {
     }
 
     public Flux<String> getAllUserBranchesNames(String username) {
-        //TODO: Implement
-        return null;
+        Flux<String> stringFlux = getUserRepositories(username)
+                .flatMap(repository -> getUserRepositoryBranches(username, repository.getName()))
+                .map(Branch::getName);
+        return stringFlux;
     }
 }
