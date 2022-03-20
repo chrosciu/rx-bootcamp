@@ -4,28 +4,35 @@ import com.chrosciu.bootcamp.tasks.github.dto.Branch;
 import com.chrosciu.bootcamp.tasks.github.dto.Repository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public class GithubClient {
     private final GithubApi githubApi;
 
     public Flux<Repository> getUserRepositories(String username) {
-        //TODO: Implement
-        return null;
+        Mono<List<Repository>> userRepositories = githubApi.getUserRepositories(username);
+        return userRepositories
+                .flatMapMany(repositories -> Flux.fromIterable(repositories));
     }
 
     public Flux<Branch> getUserRepositoryBranches(String username, String repo) {
-        //TODO: Implement
-        return null;
+        Mono<List<Branch>> userRepositoryBranches = githubApi.getUserRepositoryBranches(username, repo);
+        return userRepositoryBranches
+                .flatMapMany(branches -> Flux.fromIterable(branches));
     }
 
     public Flux<Repository> getUsersRepositories(Flux<String> usernames) {
-        //TODO: Implement
-        return null;
+        return usernames
+                .flatMap(username -> getUserRepositories(username));
     }
 
     public Flux<String> getAllUserBranchesNames(String username) {
-        //TODO: Implement
-        return null;
+        return getUserRepositories(username)
+                .flatMap(repository -> getUserRepositoryBranches(username, repository.getName()))
+                .map(branch -> branch.getName())
+                .distinct();
     }
 }
