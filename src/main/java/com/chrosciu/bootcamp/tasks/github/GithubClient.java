@@ -4,13 +4,7 @@ import com.chrosciu.bootcamp.tasks.github.dto.Branch;
 import com.chrosciu.bootcamp.tasks.github.dto.Repository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-import reactor.core.publisher.ParallelFlux;
-import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RequiredArgsConstructor
 public class GithubClient {

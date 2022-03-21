@@ -1,6 +1,6 @@
 package com.chrosciu.bootcamp.tasks.github;
 
-import com.chrosciu.bootcamp.tasks.github.dto.Repository;
+
 import com.chrosciu.bootcamp.tasks.input.InputUtils;
 import com.jakewharton.retrofit2.adapter.reactor.ReactorCallAdapterFactory;
 import lombok.SneakyThrows;
@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.ParallelFlux;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
