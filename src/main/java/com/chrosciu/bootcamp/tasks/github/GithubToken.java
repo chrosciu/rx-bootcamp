@@ -20,7 +20,7 @@ public class GithubToken {
 
     @SneakyThrows
     private static void loadProperties() {
-        try (final InputStream stream = GithubToken.class.getResourceAsStream("/github.properties")) {
+        try (final InputStream stream = GithubToken.class.getResourceAsStream("/github.properties.example")) {
             properties.load(stream);
         }
     }
