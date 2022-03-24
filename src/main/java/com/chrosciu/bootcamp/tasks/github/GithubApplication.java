@@ -58,9 +58,7 @@ public class GithubApplication {
         usersRepositories.subscribe((r) -> log.info("Repository: {}", r.getName()), e -> log.error(e.getClass().getName()), () -> log.info("Completed"));
         // 4.
         Flux<String> allBranches = githubClient.getAllUserBranchesNames("klezner");
-        allBranches
-                .subscribeOn(Schedulers.elastic())
-                .doFinally(signalType -> countDownLatch.countDown())
+        allBranches.doFinally(signalType -> countDownLatch.countDown())
                 .subscribe((b) -> log.info("Branch: {}", b), e -> log.error(e.getClass().getName()), () -> log.info("Completed"));
         countDownLatch.await();
         // 5.

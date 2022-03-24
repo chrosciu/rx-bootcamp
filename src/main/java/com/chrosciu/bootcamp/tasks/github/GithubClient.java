@@ -5,6 +5,7 @@ import com.chrosciu.bootcamp.tasks.github.dto.Repository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
 
@@ -31,8 +32,8 @@ public class GithubClient {
 
     public Flux<String> getAllUserBranchesNames(String username) {
         return getUserRepositories(username)
-                .flatMap(repository -> getUserRepositoryBranches(username, repository.getName()))
-                .map(branch -> branch.getName())
+                .flatMap(repository -> getUserRepositoryBranches(username, repository.getName()).subscribeOn(Schedulers.elastic()))
+                .map(branch -> branch.getName()).subscribeOn(Schedulers.elastic())
                 .distinct();
     }
 }
