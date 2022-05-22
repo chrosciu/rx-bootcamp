@@ -1,5 +1,6 @@
 package com.chrosciu.bootcamp.tasks.github;
 
+import com.chrosciu.bootcamp.tasks.github.dto.Branch;
 import com.chrosciu.bootcamp.tasks.github.dto.Repository;
 import com.jakewharton.retrofit2.adapter.reactor.ReactorCallAdapterFactory;
 import lombok.SneakyThrows;
@@ -53,6 +54,15 @@ public class GithubApplication {
     }
 
     @SneakyThrows
+    private void runGetUserRepositoryBranches(){
+        String username = "AsiaMorgas";
+        String repo = "homework-modern-java";
+        Flux<Branch> flux = githubClient.getUserRepositoryBranches(username, repo)
+                .log();
+        flux.subscribe(r -> log.info("{}", r));
+    }
+
+    @SneakyThrows
     private void runGetAllUsersBranchesNames() {
         Flux<String> flux = githubClient
                 .getAllUserBranchesNames("AsiaMorgas")
@@ -65,6 +75,7 @@ public class GithubApplication {
         try {
             githubApplication.runGetUserRepositories();
             githubApplication.runGetUsersRepositories();
+            githubApplication.runGetUserRepositoryBranches();
             githubApplication.runGetAllUsersBranchesNames();
         } finally {
             githubApplication.dispose();

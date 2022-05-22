@@ -4,9 +4,6 @@ import com.chrosciu.bootcamp.tasks.github.dto.Branch;
 import com.chrosciu.bootcamp.tasks.github.dto.Repository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 public class GithubClient {
@@ -18,8 +15,9 @@ public class GithubClient {
     }
 
     public Flux<Branch> getUserRepositoryBranches(String username, String repo) {
-        //TODO: Implement
-        return null;
+        return githubApi
+                .getUserRepositoryBranches(username, repo)
+                .flatMapMany(Flux::fromIterable);
     }
 
     public Flux<Repository> getUsersRepositories(Flux<String> usernames) {
@@ -36,6 +34,6 @@ public class GithubClient {
                 .flatMapMany(Flux::fromIterable)
                 .flatMap(repo -> githubApi.getUserRepositoryBranches(username, repo.getName()))
                 .flatMap(Flux::fromIterable)
-                .map(o ->  o.toString());
+                .map(o -> o.toString());
     }
 }
