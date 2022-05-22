@@ -52,11 +52,20 @@ public class GithubApplication {
         flux.subscribe(r -> log.info("{}",r));
     }
 
+    @SneakyThrows
+    private void runGetAllUsersBranchesNames() {
+        Flux<String> flux = githubClient
+                .getAllUserBranchesNames("AsiaMorgas")
+                .log();
+        flux.subscribe(r -> log.info("{}",r));
+    }
+
     public static void main(String[] args) {
         GithubApplication githubApplication = new GithubApplication();
         try {
             githubApplication.runGetUserRepositories();
             githubApplication.runGetUsersRepositories();
+            githubApplication.runGetAllUsersBranchesNames();
         } finally {
             githubApplication.dispose();
         }
