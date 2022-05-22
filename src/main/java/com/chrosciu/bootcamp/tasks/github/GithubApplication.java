@@ -38,16 +38,25 @@ public class GithubApplication {
     }
 
     @SneakyThrows
-    private void run() {
+    private void runGetUserRepositories() {
         String username = "AsiaMorgas";
         Flux<Repository> flux = githubClient.getUserRepositories(username);
+        flux.subscribe(r -> log.info("{}",r));
+    }
+
+    @SneakyThrows
+    private void runGetUsersRepositories() {
+        Flux<String> usernames = Flux.just("AsiaMorgas","chrosciu");
+        Flux<Repository> flux = githubClient.getUsersRepositories(usernames)
+                .log();
         flux.subscribe(r -> log.info("{}",r));
     }
 
     public static void main(String[] args) {
         GithubApplication githubApplication = new GithubApplication();
         try {
-            githubApplication.run();
+            githubApplication.runGetUserRepositories();
+            githubApplication.runGetUsersRepositories();
         } finally {
             githubApplication.dispose();
         }
