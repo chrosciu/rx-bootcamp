@@ -1,12 +1,16 @@
 package com.chrosciu.bootcamp.tasks.github;
 
+import com.chrosciu.bootcamp.tasks.github.dto.Repository;
 import com.jakewharton.retrofit2.adapter.reactor.ReactorCallAdapterFactory;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import reactor.core.publisher.Flux;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+
+import java.io.InputStream;
 
 @Slf4j
 public class GithubApplication {
@@ -37,6 +41,51 @@ public class GithubApplication {
 
     @SneakyThrows
     private void run() {
+
+        githubClient.getUserRepositories("magikabdul").subscribe(
+                repository -> log.info("Repo: {}", repository),
+                error -> log.warn("Error: {}", error.getMessage()),
+                () -> log.info("Completed!")
+        );
+
+        System.out.println("\n\n\n\n\n");
+
+        githubClient.getUserRepositoryBranches("magikabdul", "configaro")
+                .subscribe(
+                        branch -> log.info("Branch: {}", branch),
+                        error -> log.warn("Error: {}", error.getMessage()),
+                        () -> log.info("Completed!!")
+                );
+
+        System.out.println("\n\n\n\n\n");
+
+        githubClient.getUsersRepositories(Flux.just("magikabdul", "chrosciu"))
+                .subscribe(
+                        repository -> log.info("Repository: {}", repository),
+                        error -> log.warn("Error: {}", error.getMessage()),
+                        () -> log.info("Completed!!!")
+                );
+
+        System.out.println("\n\n\n\n\n");
+
+        githubClient.getAllUserBranchesNames("magikabdul")
+                .subscribe(
+                        name -> log.info("Branch: {}", name),
+                        error -> log.warn("Error: {}", error.getMessage()),
+                        () -> log.info("Completed!!!")
+                );
+
+        System.out.println("\n\n\n\n\n");
+
+        InputStream inputStream = System.in;
+        Flux<String> stringFlux = InputUtils.toFlux(inputStream);
+
+        Flux<Repository> repositoryFlux = githubClient.getUsersRepositories(stringFlux);
+        repositoryFlux.subscribe(
+                repository -> log.info("Repos: {}", repository),
+                error -> log.warn("Error: {}", error.getMessage()),
+                () -> log.info("Completed!!!")
+        );
     }
 
     public static void main(String[] args) {
