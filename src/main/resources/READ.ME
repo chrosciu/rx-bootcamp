@@ -1,0 +1,25 @@
+Rx Bootcamp - zadania
+1. W klasie GithubClient zaimplementować następujące metody
+  a) Flux<Repository> getUserRepositories(String username) - ma zwracać wszystkie repozytoria użytkownika GH o podanej
+       nazwie
+
+  b) Flux<Repository> getUsersRepositories(Publisher<String> usernames) - ma zwracać wszystkie repozytoria podanych
+       użytkowników GH (użytkownicy są przekazani jako strumień)
+
+  c) Flux<Branch> getUserRepositoryBranches(String username, String repo) - ma zwracać nazwy wszystkich branch
+       w repozytorium repo należącym do użytkownika username
+
+  d) Flux<String> getAllUserBranches(String username) - ma zwracać nazwy wszystkich branchy we wszystkich repozytoriach
+       użytkownika GH o podanej nazwie
+
+2. Przetestować działanie metod z punktu 1 (wykorzystując do tego celu metodę run())
+
+3. W klasie InputUtils zaimplementować funkcję Flux<String> toFlux(InputStream inputStream) - tak aby zamieniła poszczególne linie pochodzące z inputStream na elementy strumienia Flux<String>. Podpowiedz: użyć metody Flux.create() oraz klasy Scanner
+
+4. Użyć metod getAllUserBranches oraz InputUtils.toFlux() w metodzie run() tak aby program “w kółko”:
+  a) pobierał z klawiatury nazwę użytkownika GH
+
+  b) wyświetlał na konsoli wszystkie repozytoria tego użytkownika
+
+5. Zmienić implementację metody getAllUserBranches tak aby zrównoleglić odpytywanie GH API o nazwy branchy (zakładamy że kolejność w jakiej te nazwy zostaną zwrócone z metody nie ma znaczenia)
+
