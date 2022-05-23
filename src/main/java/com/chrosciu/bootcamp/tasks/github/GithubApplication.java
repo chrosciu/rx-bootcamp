@@ -37,6 +37,46 @@ public class GithubApplication {
 
     @SneakyThrows
     private void run() {
+        //TASK 1: Flux<Repository> getUserRepositories(String username)
+
+        /*githubClient.getUserRepositories("jegor-chomczuk")
+                .subscribe(r -> {
+                    log.info("Repository: {}", r.getName());
+        });*/
+
+        //TASK 2: Flux<Branch> getUserRepositoryBranches(String username, String repo)
+
+        /*githubClient.getUserRepositoryBranches("jegor-chomczuk", "GatewayService")
+                .subscribe(b -> {
+                    log.info("Branches: {}", b.getName());
+                });*/
+
+
+        //TASK 3: Flux<Repository> getUsersRepositories(Flux<String> usernames)
+
+        /*Flux<String> usernames = Flux.just("jegor-chomczuk");
+        githubClient.getUsersRepositories(usernames)
+                .subscribe(r -> {
+                    log.info("Repository: {}", r.getName());
+        });*/
+
+        //TASK 4: Flux<String> getAllUserBranchesNames(String username)
+
+        /*githubClient.getAllUserBranchesNames("jegor-chomczuk")
+                .subscribe(s ->
+                    log.info("Branch: {}", s),
+                    e -> log.error("Error: {}", e.getMessage()),
+                    () -> log.info("Completed"));*/
+
+        //TASK 5: InputUtils.toFlux
+
+        /*InputStream input = System.in;
+        Flux<String> inputs = InputUtils.toFlux(input);
+        Flux<Repository> repositories = githubClient.getUsersRepositories(inputs);
+
+        repositories.subscribe(r -> {
+            log.info("Repository: {}", r);
+        });*/
     }
 
     public static void main(String[] args) {

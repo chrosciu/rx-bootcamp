@@ -9,7 +9,11 @@ import java.io.InputStream;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class InputUtils {
     public static Flux<String> toFlux(InputStream inputStream) {
-        //TODO: Implement
-        return null;
-    }
+        return Flux
+                .create(sink -> {
+                    Scanner scanner = new Scanner(inputStream);
+                    while (scanner.hasNext()) {
+                        sink.next(scanner.nextLine());
+                    }
+                });
 }
