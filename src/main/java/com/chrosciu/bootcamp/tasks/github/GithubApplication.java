@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import reactor.core.publisher.Flux;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
@@ -37,6 +38,23 @@ public class GithubApplication {
 
     @SneakyThrows
     private void run() {
+        githubClient.getUserRepositories("SebastianRoslon")
+                .subscribe(r -> {
+                    log.info("Repository: {}", r);
+                });
+
+        githubClient.getUserRepositoryBranches("SebastianRoslon", "rx-bootcamp")
+                .subscribe(r -> {
+                    log.info("Repository: {}", r);
+                });
+
+        githubClient.getUsersRepositories(Flux.just("SebastianRoslon"))
+                .subscribe(r -> log.info("Repository: {}", r));
+
+        githubClient.getAllUserBranchesNames("SebastianRoslon")
+                .subscribe(r -> {
+                    log.info("Repository: {}", r);
+                });
     }
 
     public static void main(String[] args) {
