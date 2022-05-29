@@ -10,6 +10,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+
 public class Operators {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(Operators.class);
     static Flux<String> flux = Flux.just("A", "B", "C");
