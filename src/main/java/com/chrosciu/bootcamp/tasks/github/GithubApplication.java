@@ -1,10 +1,13 @@
 package com.chrosciu.bootcamp.tasks.github;
 
+import com.chrosciu.bootcamp.tasks.github.dto.Branch;
+import com.chrosciu.bootcamp.tasks.github.dto.Repository;
 import com.jakewharton.retrofit2.adapter.reactor.ReactorCallAdapterFactory;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import reactor.core.publisher.Flux;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
@@ -36,13 +39,44 @@ public class GithubApplication {
     }
 
     @SneakyThrows
-    private void run() {
+    private void runGetUserRepositories() {
+        String username = "AsiaMorgas";
+        Flux<Repository> flux = githubClient.getUserRepositories(username);
+        flux.subscribe(r -> log.info("{}",r));
+    }
+
+    @SneakyThrows
+    private void runGetUsersRepositories() {
+        Flux<String> usernames = Flux.just("AsiaMorgas","chrosciu");
+        Flux<Repository> flux = githubClient.getUsersRepositories(usernames)
+                .log();
+        flux.subscribe(r -> log.info("{}",r));
+    }
+
+    @SneakyThrows
+    private void runGetUserRepositoryBranches(){
+        String username = "AsiaMorgas";
+        String repo = "homework-modern-java";
+        Flux<Branch> flux = githubClient.getUserRepositoryBranches(username, repo)
+                .log();
+        flux.subscribe(r -> log.info("{}", r));
+    }
+
+    @SneakyThrows
+    private void runGetAllUsersBranchesNames() {
+        Flux<String> flux = githubClient
+                .getAllUserBranchesNames("AsiaMorgas")
+                .log();
+        flux.subscribe(r -> log.info("{}",r));
     }
 
     public static void main(String[] args) {
         GithubApplication githubApplication = new GithubApplication();
         try {
-            githubApplication.run();
+            githubApplication.runGetUserRepositories();
+            githubApplication.runGetUsersRepositories();
+            githubApplication.runGetUserRepositoryBranches();
+            githubApplication.runGetAllUsersBranchesNames();
         } finally {
             githubApplication.dispose();
         }

@@ -30,14 +30,15 @@ public class Operators {
         public static void main(String[] args) {
             Flux<String> mapped = flux.map(Operators::toLower);
             mapped.subscribe(s -> log.info("Element received: {}", s),
-                    e -> log.warn("Error occured: ", e),
+                    e -> log.warn("Error occurred: ", e),
                     () -> log.info("Stream completed"));
         }
     }
 
     static class FlatMap {
         public static void main(String[] args) {
-            Flux<String> mapped = flux.flatMap(Operators::toLowerAsync);
+            Flux<String> mapped = flux.flatMap(Operators::toLowerAsync)
+                    .log();
             mapped.subscribe(s -> log.info("Element received: {}", s),
                     e -> log.warn("Error occured: ", e),
                     () -> log.info("Stream completed"));
@@ -85,7 +86,8 @@ public class Operators {
     static class Index {
         public static void main(String[] args) {
             Flux<Tuple2<Long, String>> indexed = flux.index();
-            Flux<String> indexedAndMapped = indexed.map(objects -> "" + objects.getT1() + "->" + objects.getT2());
+            Flux<String> indexedAndMapped = indexed.map(objects -> "" + objects.getT1() + "->" + objects.getT2())
+                    .log();
             indexedAndMapped.subscribe(s -> log.info("Element received: {}", s),
                     e -> log.warn("Error occured: ", e),
                     () -> log.info("Stream completed"));
