@@ -76,6 +76,10 @@
             <version>5.6.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-test</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
